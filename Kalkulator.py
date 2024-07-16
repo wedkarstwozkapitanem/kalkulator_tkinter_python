@@ -6,7 +6,7 @@ class Kalkulator:
         self.dzialanie = str("0")
         self.okno.resizable(False,False)
 
-        self.ikonka = PhotoImage(file="3.png")
+        self.ikonka = PhotoImage(file="icon.png")
         self.okno.iconphoto(False, self.ikonka)
 
         self.okno.title("Kalkulator kapitana")
@@ -82,16 +82,26 @@ class Kalkulator:
 
     def ustawWynik(self,x,czyZnak=False):
         global dzialanie
-
         self.wynik.config(fg="white")
         if x != "":
             self.dzialanie = str(self.dzialanie)
-            self.dzialanie += str(x)
+            if not self.czyZnak and czyZnak:
+                if czyZnak:
+                    self.czyZnak = True
+                self.dzialanie += str(x)
+            elif not czyZnak:
+                self.dzialanie += str(x)
+                self.czyZnak = False
+            else:
+                self.dzialanie = self.dzialanie[:-1] + str(x)
+        if len(str(self.dzialanie)) >= 1:
+            if self.dzialanie[0] == "0" and x != ".":
+                self.dzialanie = self.dzialanie[1:]
 
-        if self.dzialanie[0] == "0" and x != ".":
-            self.dzialanie = self.dzialanie[1:]
-        self.wynik.config(text=str(self.dzialanie))
+            self.wynik.config(text=str(self.dzialanie))
 
+        else:
+            self.wynik.config(text=str(self.dzialanie))
 
     def wynikDzialania(self):
         global dzialanie
